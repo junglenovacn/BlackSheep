@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite 数据库管理工具</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><i class="fas fa-database"></i> SQLite Manager</h1>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h3>数据库列表</h3>
+                    <button class="btn-icon" onclick="showAddDatabaseModal()" title="添加数据库">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="database-list" id="databaseList">
+                    <!-- Database items will be loaded here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Toolbar -->
+            <div class="toolbar" id="toolbar">
+                <div class="toolbar-left">
+                    <span id="currentDbName" class="db-name"></span>
+                    <span id="currentTableName" class="table-name"></span>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn" onclick="showQueryPanel()">
+                        <i class="fas fa-code"></i> SQL查询
+                    </button>
+                    <button class="btn btn-danger" onclick="removeCurrentDatabase()">
+                        <i class="fas fa-trash"></i> 移除
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area" id="contentArea">
+                <!-- Welcome Screen -->
+                <div class="welcome-screen" id="welcomeScreen">
+                    <i class="fas fa-database"></i>
+                    <h2>欢迎使用 SQLite 数据库管理工具</h2>
+                    <p>点击左侧"+"按钮添加数据库，开始管理您的 SQLite 数据库</p>
+                </div>
+
+                <!-- Database View -->
+                <div class="database-view" id="databaseView" style="display: none;">
+                    <div class="view-header">
+                        <h3><i class="fas fa-table"></i> 数据表</h3>
+                    </div>
+                    <div class="tables-grid" id="tablesGrid">
+                        <!-- Tables will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Table View -->
+                <div class="table-view" id="tableView" style="display: none;">
+                    <div class="view-header">
+                        <h3><i class="fas fa-list"></i> 数据浏览</h3>
+                        <div class="pagination" id="pagination">
+                            <!-- Pagination controls -->
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="dataTable">
+                            <!-- Table data will be loaded here -->
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Query View -->
+                <div class="query-view" id="queryView" style="display: none;">
+                    <div class="view-header">
+                        <h3><i class="fas fa-code"></i> SQL 查询</h3>
+                    </div>
+                    <div class="query-panel">
+                        <textarea id="sqlInput" placeholder="输入 SQL 查询语句...&#10;例如: SELECT * FROM table_name LIMIT 100"></textarea>
+                        <div class="query-actions">
+                            <button class="btn btn-primary" onclick="executeQuery()">
+                                <i class="fas fa-play"></i> 执行查询
+                            </button>
+                            <button class="btn" onclick="clearQuery()">
+                                <i class="fas fa-eraser"></i> 清空
+                            </button>
+                        </div>
+                    </div>
+                    <div class="query-results" id="queryResults">
+                        <!-- Query results will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Database Modal -->
+    <div class="modal" id="addDatabaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加数据库</h3>
+                <button class="btn-close" onclick="hideAddDatabaseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>数据库名称</label>
+                    <input type="text" id="dbName" placeholder="输入数据库名称">
+                </div>
+                <div class="form-group">
+                    <label>数据库文件路径</label>
+                    <div class="input-group">
+                        <input type="text" id="dbPath" placeholder="选择或输入 .db/.sqlite 文件路径">
+                        <button class="btn" onclick="browseFile()">
+                            <i class="fas fa-folder-open"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>描述 (可选)</label>
+                    <textarea id="dbDescription" placeholder="输入数据库描述"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="hideAddDatabaseModal()">取消</button>
+                <button class="btn btn-primary" onclick="addDatabase()">添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Schema Modal -->
+    <div class="modal" id="tableSchemaModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>表结构</h3>
+                <button class="btn-close" onclick="hideTableSchemaModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="schema-table" id="schemaTable">
+                    <!-- Schema will be loaded here -->
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="hideTableSchemaModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

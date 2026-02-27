@@ -1,0 +1,13 @@
+{
+  "databases": {
+    "5fd7d319": {
+      "id": "5fd7d319",
+      "name": "A",
+      "path": "d:\\TRAE\\pingce\\swan0225new\\BlackSheep-main-KIMI25\\sqlite_manager\\test_database.db",
+      "description": "",
+      "created_at": "2026-02-26T15:30:36.060574",
+      "last_accessed": "",
+      "size_bytes": 24576
+    }
+  }
+}
